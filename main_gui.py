@@ -3,6 +3,56 @@ import string
 from tkinter import *
 
 
+def main():
+    def clip(text):
+        window.clipboard_clear()
+        window.clipboard_append(text)
+
+    def enc():
+        data = pass_entry.get()
+        pin = pin_entry.get()
+        encryted_data = encryptor(data, pin)
+        show_label.config(text=encryted_data)
+        clip(encryted_data)
+
+    def dec():
+        data = pass_entry.get()
+        pin = pin_entry.get()
+        decryted_data = decryptor(data, pin)
+        show_label.config(text=decryted_data)
+        clip(decryted_data)
+
+    FONT = ("Arial", 15, "normal")
+
+    window = Tk()
+    window.title("Edona - Encryptor and Decryptor")
+    window.config(padx=20, pady=20)
+
+    pin_label = Label(text="Secret Pin:", font=FONT)
+    pin_label.grid(row=0, column=0)
+
+    pin_entry = Entry(width=20, font=FONT, )
+    pin_entry.grid(row=0, column=2, pady=15)
+
+    pass_label = Label(text="Password:", font=FONT)
+    pass_label.grid(row=1, column=0)
+
+    pass_entry= Entry(width=20, font=FONT)
+    pass_entry.grid(row=1, column=2)
+
+    enc_button = Button(text="Encrypt", font=FONT, command=enc)
+    enc_button.grid(row=2, column=0, pady=50, padx=10)
+
+    dec_button = Button(text="Decrypt", font=FONT, command=dec)
+    dec_button.grid(row=2, column=2, pady=50)
+
+    show_label = Label(text="", font=FONT)
+    show_label.grid(row=3, column=1)
+    
+    window.mainloop()
+
+
+
 def split_string(data, number):
     """Split the string in 'n' number of parts. and return a list"""
 
@@ -21,7 +71,7 @@ def split_string(data, number):
     return parts
 
 
-def encryption(data, pin):
+def encryptor(data, pin):
     """take the splited string and exceed the character index by given pin value respectively."""
 
     pin_len = len(pin)
@@ -40,7 +90,7 @@ def encryption(data, pin):
     return new_encoded_data
 
 
-def decryption(data, pin):
+def decryptor(data, pin):
     """take the splited string and exceed the character index by given pin value respectively."""
 
     pin_len = len(pin)
@@ -59,60 +109,7 @@ def decryption(data, pin):
     return b64_decoded_data
 
 
-def clip(text):
-    window.clipboard_clear()
-    window.clipboard_append(text)
 
-def enc():
-    data = pass_entry.get()
-    pin = pin_entry.get()
-    encryted_data = encryption(data, pin)
-    # clip_button.config(text=encryted_data)
-    show_label.config(text=encryted_data)
-    clip(encryted_data)
+if __name__ == "__main__":
+    main()
 
-def dec():
-    data = pass_entry.get()
-    pin = pin_entry.get()
-    decryted_data = decryption(data, pin)
-    # clip_button.config(text=decryted_data)
-    show_label.config(text=decryted_data)
-    clip(decryted_data)
-
-
-
-FONT = ("Arial", 15, "normal")
-
-
-window = Tk()
-window.title("Encrypt >< Decrypt")
-window.config(padx=20, pady=20)
-
-pin_label = Label(text="Pin:", font=FONT)
-pin_label.grid(row=0, column=0)
-
-
-pin_entry = Entry(width=20, font=FONT)
-pin_entry.grid(row=0, column=2, pady=15)
-
-
-pass_label = Label(text="Password:", font=FONT)
-pass_label.grid(row=1, column=0)
-
-
-pass_entry= Entry(width=20, font=FONT)
-pass_entry.grid(row=1, column=2)
-
-
-enc_button = Button(text="Encrypt", font=FONT, command=enc)
-enc_button.grid(row=2, column=0, pady=15)
-
-
-dec_button = Button(text="Decrypt", font=FONT, command=dec)
-dec_button.grid(row=2, column=2, pady=50)
-
-
-show_label = Label(text="", font=FONT)
-show_label.grid(row=3, column=1)
-
-window.mainloop()
